@@ -95,8 +95,19 @@ async function cancelBooking(bookingId){
     }
 }
 
+async function cancelOldBookings(){
+    try {
+        const time = new Date(Date.now() - 5 * 60 * 1000);
+        const bookings = await bookingRepository.cancelOldBookings(time);
+        return bookings;
+    } catch (error) {
+        console.error('Error in cron job:', error);
+    }
+}
 
 module.exports = {
     createBooking,
-    makePayment
+    makePayment,
+    cancelBooking,
+    cancelOldBookings
 }
